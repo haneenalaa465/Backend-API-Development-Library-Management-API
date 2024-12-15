@@ -30,7 +30,7 @@ This application is dockerized for simplified deployment and portability.
 
 1. Clone the Repository
 ```
-git clone <repository_url>
+git clone [<repository_url>](https://github.com/haneenalaa465/Backend-API-Development-Library-Management-API.git)
 cd library-management-api
 ```
 
