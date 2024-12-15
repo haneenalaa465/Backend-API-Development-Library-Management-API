@@ -1,0 +1,30 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - deploy
+
+jobs:
+  deploy-to-azure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Build Application
+        run: |
+          echo "Building application for deployment..."
+
+      - name: Deploy to Azure
+        run: |
+          az webapp up --name <your-app-name> --resource-group <your-resource-group> --runtime "PYTHON|3.9"
