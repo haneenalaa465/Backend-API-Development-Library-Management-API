@@ -1,17 +1,26 @@
 from flask import Flask, jsonify, request
+from flask_swagger_ui import get_swaggerui_blueprint
 import json
 
 app = Flask(__name__)
 
-TOKEN = '123456'
+SWAGGER_URL = '/api-docs'
+API_URL = '/swagger.json'
+
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={'app_name': "Library Management API"}
+)
+
+app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+
+@app.route('/swagger.json')
+def swagger_spec():
+    with open('swagger.json') as f:
+        return f.read(), 200, {'Content-Type': 'application/json'}
 
 books = []
-
-@app.before_request
-def authenticate_token():
-    token = request.headers.get("Authorization")
-    if not token or token != f"Bearer {TOKEN}":
-        return jsonify({"error": "Unauthorized"}), 401
 
 def find_book(isbn):
     for book in books:
@@ -85,4 +94,4 @@ def update_book(isbn):
     return jsonify({'error': 'Book not found'}), 404
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
