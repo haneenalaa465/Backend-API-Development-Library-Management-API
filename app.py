@@ -15,7 +15,7 @@ def authenticate_token():
 
 def find_book(isbn):
     for book in books:
-        if book.get('isbn') == isbn:
+        if book['isbn'] == isbn:
             return book
     return None
 
